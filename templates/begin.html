@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='begin.css') }}"> -->
+        <!-- <link rel="stylesheet" href="begin.css"> -->
+        <style>
+        .background {
+            background-color: black;
+            opacity: 0.5;
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+        }
+
+        .prompt {
+            position: fixed;
+            left: 27.5%;
+            top: 15%;
+            height: 70%;
+            width: 45%;
+            background-color: #75aaff;
+            border-radius: 30px;
+            padding-top: 5%;
+            padding-bottom: 5%;
+            padding-left: 5%;
+            padding-right: 5%;
+            text-align: center;
+        }
+
+        .welcome {
+            font-size: 2.5em;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .prompt-name {
+            font-size: 1.5em;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .input-name {
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .input-name:focus {
+            background-color: #17769c;
+            color: white;
+            text-align: center;
+            font-size: 1em;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .submit-name {
+            font-family: 'Press Start 2P', cursive;
+            width: 130px;
+            background: #ededed;
+        }
+
+        .submit-name:focus {
+            background: #e5e5e5;
+            box-shadow: inset 100px 0px 5px #c1c1c1;
+        }
+
+        .prompt-2 {
+            visibility: hidden;
+        }
+
+        #greeting-welcome {
+            font-size: 1.5em;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        @keyframes scale-out-vertical {
+            0% {
+                height: 100%;
+                opacity: 1;
+            }
+            100% {
+                height: 0%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes show {
+            0% {
+                opacity: 0;
+                visibility: visible;
+            }
+            100% {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+
+        @keyframes throb {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        </style>
+        
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                
+                var button = document.querySelector('#submit');
+                // if(localStorage.getItem('displayName')) {
+                //     document.querySelector('#greeting-welcome').innerHTML = "Hello, " + localStorage.getItem('displayName') + "!";
+                // }
+
+                button.onclick = function() {
+                    var name = document.querySelector('#name').value;
+                    localStorage.setItem('displayName', name);
+                    var prompt1 = document.querySelector('.prompt-1');
+                    prompt1.style.animation = "scale-out-vertical 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards";
+                    var prompt2 = document.querySelector('.prompt-2');
+                    prompt2.style.animation = "show 0.5s forwards";
+                    document.querySelector('#greeting-welcome').innerHTML = "Hello, " +  localStorage.getItem('displayName') + "!";
+                };
+            });
+            
+        </script>
+    </head>
+    <body>
+        <div class="background"></div>
+        <div class="prompt" id="prompt">
+            <div class="prompt-1">
+                <h1 class="welcome">Welcome to Flack!</h1><br><br>
+                <h3 class="prompt-name">Choose a display name:</h3>
+                <input id="name" name="input-name" type="text" class="input-name" size="40" required><br><br>
+                <button class="submit-name" id="submit">Submit</button>
+            </div>
+            <div class="prompt-2">
+                <h1 class="welcome" id="greeting-welcome"></h1><br>
+                <img src="../static/heart.webp" height="100" style="animation: throb 1s infinite;"><br><br><br>
+                <form action="{{ url_for('home') }}" method="get">
+                    <button class="submit-name" type="submit">Let's go</button>
+                </form>
+            </div>
+        </div>
+        
+    </body>
+</html>
