@@ -1,13 +1,33 @@
 <html>
     <head>
-        <link rel="stylesheet" href="home.css">
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto&family=Ubuntu&display=swap" rel="stylesheet">    </head>
+        <!-- <link rel="stylesheet" href="home.css"> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto&family=Ubuntu&display=swap" rel="stylesheet">
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelector('.display-name').innerHTML = localStorage.getItem('displayName');
+
+                document.querySelector('#create-channel').onclick = () => {
+                    document.querySelector('.create-channel-background').style.visibility = 'visible';
+                    document.querySelector('.create-channel-form').style.visibility = 'visible';
+                    
+                };
+
+                document.querySelector('.close-create-channel').onclick = () => {
+                    document.querySelector('.create-channel-background').style.visibility = 'hidden';
+                    document.querySelector('.create-channel-form').style.visibility = 'hidden';
+                };
+
+
+            });
+        </script>
+    </head>
     <body class="container">
         <div class="menu">
             <div class="menu-profile">
                 <div class="menu-name">
                     <span style="font-family: 'Ubuntu', sans-serif; font-size: 1.5em; color: white">Display name</span><br><br> 
-                    <span style="font-family: 'Press Start 2P', cursive; color: navajowhite;">michelleespranita</span>
+                    <span style="font-family: 'Press Start 2P', cursive; color: navajowhite;" class="display-name"></span>
                 </div>
                 <div class="menu-create">
                     <span><a href="#"><img src="../static/pencil.png" height="40"></a></span>
@@ -18,14 +38,53 @@
             <div class="menu-channel">
                 <div class="menu-channel-names">
                     <span style="font-family: 'Ubuntu', sans-serif; font-size: 1.5em; color: white">Channels</span><br><br> 
+                    {% for channel in channels %}
+                    <a class="channel-link" href="#"><div class="channel">{{ channel }}</div></a>
+                    {% endfor %}
                 </div>
                 <div class="menu-channel-options">
-                    <span><a href="#" style="color: white; font-size: 2em; text-decoration: none;">+</a></span>
+                    <span><a id="create-channel" href="#" style="color: white; font-size: 2em; text-decoration: none;">+</a></span>
                 </div>
+                
             </div>
         </div>
         <div class="chat-space">
-
+            Blabla
         </div>
+        {% if hidden %}
+        <div class="create-channel-background" style="visibility: hidden;"></div>
+        <div class="create-channel-form" style="visibility: hidden;">
+            <button class="close-create-channel">X</button>
+            <form action="{{ url_for('createChannel') }}" method="post" autocomplete="off">        
+                <h2>Create a channel</h2>
+                <label style="font-family: 'Ubuntu', sans-serif; font-size: 1.3em; font-weight: bolder;">Name</label><br><br>
+                <input type="text" placeholder="Mario Kart Gamers" class="channel-name" name="channelName" size="47" required><br><br>
+                {% if showWarning %}
+                    <span style="font-family: 'Ubuntu', sans-serif; color: red;">This channel name already exists. Please use another name.</span>
+                    <br>
+                {% endif %}
+                <label style="font-family: 'Ubuntu', sans-serif; font-size: 1.3em; font-weight: bolder;">Description <span style="font-size: 0.7em;">(optional)</span></label><br><br>
+                <textarea class="channel-desc" name="channelDesc" rows="7" cols="45"></textarea><br><br>
+                <input type="submit" value="Create" class="submit-channel">
+            </form>
+        </div>
+        {% else %}
+        <div class="create-channel-background" style="visibility: visible;"></div>
+        <div class="create-channel-form" style="visibility: visible;">
+            <button class="close-create-channel">X</button>
+            <form action="{{ url_for('createChannel') }}" method="post" autocomplete="off">        
+                <h2>Create a channel</h2>
+                <label style="font-family: 'Ubuntu', sans-serif; font-size: 1.3em; font-weight: bolder;">Name</label><br><br>
+                <input type="text" placeholder="Mario Kart Gamers" class="channel-name" name="channelName" size="47" required><br><br>
+                {% if showWarning %}
+                    <span style="font-family: 'Ubuntu', sans-serif; color: red;">This channel name already exists. Please use another name.</span>
+                    <br>
+                {% endif %}
+                <label style="font-family: 'Ubuntu', sans-serif; font-size: 1.3em; font-weight: bolder;">Description <span style="font-size: 0.7em;">(optional)</span></label><br><br>
+                <textarea class="channel-desc" name="channelDesc" rows="7" cols="45"></textarea><br><br>
+                <input type="submit" value="Create" class="submit-channel">
+            </form>
+        </div>
+        {% endif %}
     </body>
 </html>
