@@ -52,6 +52,7 @@
     font-size: 0.8em;
     padding-left: 5%;
     padding-right: 5%;
+    overflow: scroll;
 }
 
 .menu-channel-names {
@@ -181,4 +182,15 @@
 .submit-channel:focus {
     background: #e5e5e5;
     box-shadow: inset 100px 0px 5px #c1c1c1;
+}
+
+.chat-input {
+    border: 1px solid red;
+    position: absolute;
+    bottom: 5%;
+}
+
+.chat-input-textarea {
+    border-radius: 10px;
+    border: 1px solid black;
 }
