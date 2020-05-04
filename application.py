@@ -8,8 +8,8 @@ SECRET_KEY = os.urandom(32)
 app.config["SECRET_KEY"] = SECRET_KEY
 socketio = SocketIO(app)
 
-channels = {} # contains key-value pair of (name, desc)
-conversations = {} # contains key-value pair of (name, dataframe)
+channels = {} # list of (name, desc)
+conversations = {} # contains key-value pair of (name, list of dictionaries containing chats)
 hidden = True
 showWarning = False
 
@@ -20,34 +20,51 @@ def index():
 @app.route("/home", methods=["GET"])
 def home():
     global hidden
-    global showWarning
-    print(hidden, showWarning)
-    return render_template("home.html", channels=channels, hidden=hidden, showWarning=showWarning)
+    # print(hidden, showWarning)
+    # return render_template("begin.html")
+    print("HOME")
+    return render_template("home.html", hidden=hidden)
 
-@app.route("/create-channel", methods=["POST"])
-def createChannel():
-    global hidden
-    global showWarning
-    print('createChannel')
-    name = request.form.get('channelName')
-    desc = request.form.get('channelDesc')
-    print(name, desc)
-    if name in channels.keys():
-        print("Name exists.")
-        hidden = False
-        showWarning = True
-        return redirect(url_for('home'))
+
+@app.route("/check-channels", methods=["POST"])
+def checkChannels():
+    global channels
+    if len(channels) > 0:
+        return jsonify('True')
     else:
-        channels[name] = desc
-        hidden = True
-        showWarning = False
-        return redirect(url_for('home'))
+        return jsonify('False')
 
-@app.route("/get-messages", methods=["GET"])
+@app.route("/check-channels-exist", methods=["POST"])
+def checkChannelsExist():
+    channelName = request.form.get('channelName')
+    if channelName in channels.keys():
+        return jsonify('True')
+    else:
+        return jsonify('False')
+
+@app.route("/get-channels", methods=["POST"])
+def getChannels():
+    global channels
+    return jsonify(channels)
+
+@app.route("/get-messages", methods=["POST"])
 def getMessages():
     global conversations
     channelName = request.form.get('channel_name')
-    return conversations[channelName]
+    if channelName in conversations.keys():
+        print(conversations[channelName])
+        return jsonify(conversations[channelName])
+    else:
+        return jsonify([])
+
+@socketio.on('create channel')
+def createChannel(data):
+    channelName = data['channel_name']
+    channelDesc = data['channel_desc']
+    print(channelName, channelDesc)
+    if channelName not in channels.keys():
+        channels[channelName] = channelDesc
+    emit('current channels', channels, broadcast=True)
 
 @socketio.on('send message')
 def send_message(data):
@@ -56,9 +73,11 @@ def send_message(data):
     message_time = data['message_time']
     message_sender = data['message_sender']
     message_text = data['message_text']
-    if channel_name not in conversations:
+    if channel_name not in conversations.keys():
         conversations[channel_name] = [{'message_text': message_text, 'message_sender': message_sender, 'message_time': message_time}]
     else:
+        if len(conversations[channel_name]) >= 100:
+            del conversations[channel_name][0]
         conversations[channel_name].append({'message_text': message_text, 'message_sender': message_sender, 'message_time': message_time})
     emit('current messages', conversations, broadcast=True)
 
