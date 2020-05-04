@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Ubuntu&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ url_for('static', filename='begin.css') }}">
         <!-- <link rel="stylesheet" href="begin.css"> -->
@@ -33,7 +33,7 @@
             <div class="prompt-1">
                 <h1 class="welcome">Welcome to Flack!</h1><br><br>
                 <h3 class="prompt-name">Choose a display name:</h3>
-                <input id="name" name="input-name" type="text" class="input-name" size="40" required><br><br>
+                <input id="name" name="input-name" type="text" class="input-name" size="40" maxlength="20" required><br><br>
                 <button class="submit-name" id="submit">Submit</button>
             </div>
             <div class="prompt-2">
