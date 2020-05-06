@@ -8,7 +8,7 @@ SECRET_KEY = os.urandom(32)
 app.config["SECRET_KEY"] = SECRET_KEY
 socketio = SocketIO(app)
 
-channels = {} # list of (name, desc)
+channels = {} # key-value pairs where name is key and description is value
 conversations = {} # contains key-value pair of (name, list of dictionaries containing chats)
 # Ex: {'Mario Kart': [{'message_id': 1, 'message_sender': 'Michelle', 'message_text': 'Hahaha', 'message_time': '2020', 'reply_id': 0}, ...], ...}
 # 0 is reserved for nothing
@@ -58,6 +58,11 @@ def getMessages():
         return jsonify(conversations[channelName])
     else:
         return jsonify([])
+
+@app.route("/get-desc-by-name", methods=["POST"])
+def getDescByName():
+    name = request.form.get('channel_name')
+    return jsonify(channels[name])
 
 @socketio.on('create channel')
 def createChannel(data):

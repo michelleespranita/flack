@@ -12,20 +12,21 @@
     position: fixed;
     left: 27.5%;
     top: 15%;
-    height: 70%;
+    height: 60%;
     width: 45%;
-    background-color: #75aaff;
+    background-color: #bbe1fa;
     border-radius: 30px;
     padding-top: 5%;
     padding-bottom: 5%;
     padding-left: 5%;
     padding-right: 5%;
     text-align: center;
+    overflow: scroll;
 }
 
 .welcome {
-    font-size: 2.5em;
-    font-family: 'Press Start 2P', cursive;
+    font-size: 4em;
+    font-family: 'Kalam', cursive;
 }
 
 .prompt-name {
@@ -41,7 +42,7 @@
 }
 
 .submit-name {
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Kalam', cursive;
     width: 130px;
     background: #ededed;
     border-radius: 5px;
@@ -59,8 +60,8 @@
 }
 
 #greeting-welcome {
-    font-size: 1.5em;
-    font-family: 'Press Start 2P', cursive;
+    font-size: 2em;
+    font-family: 'Kalam', cursive;
 }
 
  @keyframes scale-out-vertical {

@@ -1,161 +1,371 @@
-.container {
-    display: block;
+* {
+    margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-areas:
+        "menu chatspace";
+}
+
+.warning {
+    visibility: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: white;
 }
 
 .menu {
-    height: 100%;
-    width: 20%;
+    grid-area: menu;
     background-color: #1b262c;
-    float: left;
-    position: relative;
-    
+    display: grid;
+    grid-template-rows: minmax(10%,10%) auto;
+    grid-template-areas:
+        "menuprofile"
+        "menuchannel";
+    overflow: auto;
 }
 
 .menu-profile {
-    width: 100%;
-    height: 10%;
-    /* border: 1px solid red; */
-    position: relative;
-    font-size: 0.8em;
+    grid-area: menuprofile;
+    background-color: #1b262c;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+    padding-left: 3%;
 }
 
-.menu-name {
-    height: 90%;
-    width: 70%;
-    position: relative;
-    float: left;
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    line-height: 1.5em;
+.display-name {
+    padding: 5px;
+    font-family: 'Kalam', cursive;
+    color: white;
+    overflow-wrap: break-word;
 }
 
-.menu-create {
-    height: 90%;
-    width: 10%;
-    position: relative;
-    float: left;
-    /* border: 1px solid purple; */
-    /* padding-left: 5%;
-    padding-right: 5%; */
-    padding-top: 5%;
-    padding-bottom: 5%;
+.display-name-content {
+    font-family: 'Kalam', cursive;
+    color: white;
+    font-size: 1.5em;
 }
 
 .menu-channel {
-    width: 90%;
-    height: 90%;
-    /* border: 1px solid red; */
-    position: relative;
-    font-size: 0.8em;
-    padding-left: 5%;
-    padding-right: 5%;
+    grid-area: menuchannel;
+    background-color: #1b262c;
+    border-right: 1px solid white;
     overflow: scroll;
+    height: 100%;
+    max-height: 100%;
 }
+
+.menu-channel-header {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-template-areas:
+        "menu-channel-title menu-channel-add";
+    height: 5%;
+    padding-left: 5%;
+
+}
+
+.menu-channel-title {
+    grid-area: menu-channel-title;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1em;
+    color: white;
+    align-self: center;
+}
+
+.menu-channel-add {
+    grid-area: menu-channel-add;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 2em;
+    color: white;
+    text-align: center;
+}
+
 
 .menu-channel-names {
-    width: 90%;
-    height: 90%;
-    position: relative;
-    float: left;
-}
-
-.menu-channel-options {
-    width: 10%;
-    height: 90%;
-    position: relative;
-    float: left;
-}
-
-.channel {
+    width: 100%;
+    padding: 1.5% 5%;
     font-family: 'Ubuntu', sans-serif;
-    color: navajowhite;
+    color: white;
     text-decoration: none;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    padding: 3px;   
 }
 
-.channel:hover {
-    background-color: #304957;
+.menu-channel-names:hover {
+    background-color: #3b505c;
+    cursor: pointer;
 }
 
-/* unvisited link */
-.channel-click:link {
-    text-decoration: none;
-    color: navajowhite;
-}
-
-/* visited link */
-.channel-click:visited {
-    text-decoration: none;
-    color: navajowhite;
-}
-
-/* mouse over link */
-.channel-click:hover {
-    text-decoration: none;
-    color: navajowhite;
-}
-
-/* selected link */
-.channel-click:active {
-    text-decoration: none;
-    color: navajowhite;
+.blank {
+    border-right: 1px solid white;
 }
 
 .chat-space {
+    grid-area: chatspace;
+    display: grid;
+    grid-template-rows: 10% 75% 0% 15%;
+    grid-template-areas:
+        "channel-name"
+        "messages"
+        "reply-box"
+        "chat-input";
+    overflow: auto;
+}
+
+.channel-name-header {
+    grid-area: channel-name;
+    background-color: #1b262c;
+    border-bottom: 1px solid white;
+    font-family: 'Kalam', cursive;
+    color: white;
+    font-size: 2em;
+    display: grid;
+    grid-template-columns: 1fr 55px;
+    text-align: center;
+}
+
+.channel-name {
+    padding-left: 1.5%;
+    align-self: center;
+}
+
+.channel-detail {
+    place-self: center;
+}
+
+.desc-space {
+    position: fixed;
+    top: 10%;
     width: 80%;
+    padding: 1%;
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #bbe1fa;
+    color: black;
+    visibility: hidden;
+}
+
+.messages {
+    grid-area: messages;
+    background-color: white;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 2%;
+    overflow: scroll;
     height: 100%;
+}
+
+.messages2 {
+    display: grid;
+    place-self: center;
+    font-family:'Ubuntu', sans-serif;
+    font-size: 1.5em;
+    color: #808080;
+}
+
+.message-row {
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 70%;
+}
+
+.message-sender {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    padding: 5px 5px;
+}
+
+.reply-you-message-in-text, .reply-other-message-in-text{
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.reply-you-message-in-text {
+    background-color: #39515e;
+    border-left: 5px solid #3282b8;
+    color: white;
+}
+
+.reply-other-message-in-text {
+    background-color: #ffe6bf;
+    border-left: 5px solid #f9b384;
+    color: black;
+}
+
+.reply-message-in-text-sender {
+    font-weight: bold;
+    padding-bottom: 8px;
+}
+
+.message-text {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1em;
+    padding: 9px 14px;
+    margin-bottom: 5px;
+}
+
+.message-time {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 0.7em;
+    color: #777;
+}
+
+.you-message .message-text {
+    background-color: #1b262c;
+    color: white;
+    border: 1px solid #1b262c;
+    border-radius: 14px 14px 0 14px;
+}
+
+.you-message {
+    justify-content: end;
+    justify-items: end;
+}
+
+.other-message .message-text {
     background-color: navajowhite;
-    float: left;
+    color: black;
+    border: 1px solid navajowhite;
+    border-radius: 14px 14px 14px 0;
+}
+
+.other-message {
+    justify-items: start;
+}
+
+.reply-box {
+    grid-area: reply-box;
+    visibility: hidden;
+    background-color: #F8F8F8;
+    display: grid;
+    grid-template-columns: 5% 95%;
+}
+
+.close-reply-box {
+    place-self: center;
+}
+
+.reply-message {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 0%;
+    padding-right: 2%;
+    overflow: scroll;
+}
+
+.reply-message-id {
+    visibility: 'hidden';
+    font-size: 1px;
+}
+
+.reply-message-sender {
+    font-family: 'Ubuntu', sans-serf;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.reply-message-content {
+    border-radius: 10px;
+    border-left: 3px solid #1b262c;
+    background-color: 	#E8E8E8;
+    padding: 10px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.chat-input {
+    grid-area: chat-input;
+    background-color:#F8F8F8;
+    display: grid;
+    padding: 2%;
+}
+
+.chat-text {
+    align-self: center;
+}
+
+.chat-text textarea {
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 98%;
+    height: 90%;
+    resize: none;
+    font-size: 1.2em;
+    padding: 10px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.background-black {
+    background-color: black;
+    opacity: 0.5;
+    z-index: 1;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    height: 100%;
+    width: 100%;
 }
 
 .create-channel-background {
-    z-index: 1;
-    background-color: black;
-    opacity: 0.5;
+    z-index: 2;
+    opacity: 1;
     height: 100%;
     width: 100%;
     position: fixed;
     left: 0px;
     top: 0px;
+    display: grid;
+    grid-template-columns: 32.5% auto 32.5%;
+    grid-template-rows: 15% 60% auto;
+    grid-template-areas:
+        "x1 x2 x3"
+        "x4 x5 x6"
+        "x7 x8 x9";
 }
 
+
 .create-channel-form {
-    z-index: 2;
-    position: fixed;
-    left: 32.5%;
-    top: 15%;
-    height: 50%;
-    width: 35%;
-    background-color: #75aaff;
-    border-radius: 30px;
-    padding-top: 5%;
-    padding-bottom: 5%;
-    /* padding-left: 5%;
-    padding-right: 5%; */
-    text-align: center;
-    font-family: 'Press Start 2P', cursive;
+    grid-area: x5;
+    background-color: #bbe1fa;
+    border-radius: 25px;
+    font-family: 'Kalam', cursive;
 }
 
 .close-create-channel {
-    position: absolute;
-    top: 3%;
-    right: 3%;
+    padding: 2%;
+}
+
+.close-create-channel-button {
+    position: relative;
+    float: right;
     background: none;
     border: none;
     font-size: 1.5em;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Kalam', cursive;
+    padding-bottom: 0px;
 }
 
-.close-create-channel:hover {
+.create-channel-form-content {
+    text-align: center;
+    grid-area: content;
+}
+
+.close-create-channel-button:hover {
     cursor: pointer;
 }
 
-.channel-name {
+.channel-name-input {
     border-radius: 5px;
     font-size: 1em;
     font-family: 'Ubuntu', sans-serif;
@@ -167,10 +377,12 @@
     border-radius: 5px;
     font-size: 1em;
     resize: none;
+    font-family: 'Ubuntu', sans-serif;
+    padding: 2%;
 }
 
 .submit-channel {
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Kalam', cursive;
     font-size: 1em;
     width: 120px;
     background: #ededed;
@@ -182,15 +394,4 @@
 .submit-channel:focus {
     background: #e5e5e5;
     box-shadow: inset 100px 0px 5px #c1c1c1;
-}
-
-.chat-input {
-    border: 1px solid red;
-    position: absolute;
-    bottom: 5%;
-}
-
-.chat-input-textarea {
-    border-radius: 10px;
-    border: 1px solid black;
 }
