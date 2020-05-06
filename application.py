@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 from flask import Flask, session, request, render_template, url_for, redirect, flash, jsonify
 from flask_socketio import SocketIO, emit
 
@@ -11,7 +10,7 @@ socketio = SocketIO(app)
 channels = {} # key-value pairs where name is key and description is value
 conversations = {} # contains key-value pair of (name, list of dictionaries containing chats)
 # Ex: {'Mario Kart': [{'message_id': 1, 'message_sender': 'Michelle', 'message_text': 'Hahaha', 'message_time': '2020', 'reply_id': 0}, ...], ...}
-# 0 is reserved for nothing
+# message_id starts with 1 because the 0 in reply_id is reserved for "no message was replied to"
 hidden = True
 showWarning = False
 global_id = 1
@@ -23,9 +22,6 @@ def index():
 @app.route("/home", methods=["GET"])
 def home():
     global hidden
-    # print(hidden, showWarning)
-    # return render_template("begin.html")
-    print("HOME")
     return render_template("home.html", hidden=hidden)
 
 
@@ -68,7 +64,6 @@ def getDescByName():
 def createChannel(data):
     channelName = data['channel_name']
     channelDesc = data['channel_desc']
-    print(channelName, channelDesc)
     if channelName not in channels.keys():
         channels[channelName] = channelDesc
     emit('current channels', channels, broadcast=True)
@@ -89,7 +84,6 @@ def send_message(data):
             del conversations[channel_name][0]
         conversations[channel_name].append({'message_id': global_id, 'message_text': message_text, 'message_sender': message_sender, 'message_time': message_time, 'reply_id': reply_message_id})
     global_id += 1
-    print(conversations)
     emit('current messages', conversations, broadcast=True)
 
 

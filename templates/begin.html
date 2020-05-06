@@ -13,12 +13,17 @@
 
                 button.onclick = function() {
                     var name = document.querySelector('#name').value;
-                    localStorage.setItem('displayName', name);
-                    var prompt1 = document.querySelector('.prompt-1');
-                    prompt1.style.animation = "scale-out-vertical 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards";
-                    var prompt2 = document.querySelector('.prompt-2');
-                    prompt2.style.animation = "show 0.5s forwards";
-                    document.querySelector('#greeting-welcome').innerHTML = "Hello, " +  localStorage.getItem('displayName') + "!";
+                    if (name.length === 0) {
+                        alert("Please enter a display name!");
+                    } else {
+                        localStorage.setItem('displayName', name);
+                        var prompt1 = document.querySelector('.prompt-1');
+                        prompt1.style.animation = "scale-out-vertical 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) forwards";
+                        var prompt2 = document.querySelector('.prompt-2');
+                        prompt2.style.animation = "show 0.5s forwards";
+                        document.querySelector('#greeting-welcome').innerHTML = "Hello, " +  localStorage.getItem('displayName') + "!";
+                    }
+                    
                 };
             });
             

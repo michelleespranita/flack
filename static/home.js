@@ -97,6 +97,8 @@ function openChannel(channel) {
     document.querySelector('.info-icon').style.visibility = 'visible';
     // Make sure description space is hidden
     document.querySelector('.desc-space').style.visibility = 'hidden';
+    // Make sure reply box is closed
+    closeReplyBox();
     // Load messages
     const request = new XMLHttpRequest();
     request.open('POST', '/get-messages');
@@ -242,12 +244,16 @@ socket.on('connect', () => {
             const channel_name = document.querySelector('#channel-name').innerHTML;
             const message_sender = localStorage.getItem('displayName');
             var now = new Date();
-            var day = now.getDate();
-            if (day < 10) {
-                day = '0' + day;
+            var minute = now.getMinutes();
+            if (minute < 10) {
+                minute = '0' + minute;
             }
-            var date = now.getFullYear() + '-' + (now.getMonth()+1) + '-' + day;
-            var time = now.getHours() + ':' + now.getMinutes();
+            var hour = now.getHours();
+            if (hour < 10) {
+                hour = '0' + hour;
+            }
+            var date = now.getFullYear() + '-' + (now.getMonth()+1) + '-' + now.getDate();
+            var time = hour + ':' + minute;
             const message_time = date + ' ' + time;
             var reply_box = document.querySelector('.reply-box');
             if (reply_box.style.visibility === 'visible') {
